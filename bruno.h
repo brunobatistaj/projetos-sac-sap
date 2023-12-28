@@ -1,11 +1,38 @@
-int Prazo(int* t); //coverte tempo anual em número de meses
-double ValorFinanciado(double* f); //verifica se valor é verdadeiro
-double Tjuros(double* i); //verifica se taxa de juros é verdadeira
+#define MIN_PRAZO 1
+#define MAX_PRAZO 600
+#define MIN_VALOR 1000.00
+#define MIN_JUROS 1.0
+#define MAX_JUROS 100
 
-//Price
+int Prazo(int* t); //Valida numero de prestaÃ§oes e armazena em ponteiro
+double ValorFinanciado(double* f); //verifica se valor Ã© verdadeiro e armazena em ponteiro
+double Tjuros(double* i); //verifica se taxa de juros Ã© verdadeira e armazena em ponteiro
+
+//salvar meses em vetores
+int converteMes(int t); //converte em meses de 1 a 12
+const char* GetMonthName(int mesRestante);//converte funcao anterior em nome dos meses
+
+// calculos Price
 double CalcPagamento(int p, double v, double j, double* pmt);//calcular prestacao
-void CalcPrice(int periodo, double valor, double juros, double pagames,  double* parcelas, double* jurosMensais, double* amortizacoes, double* saldosDevedores);//calcula diferenças entre prestação, juros, amortização e valor total, vetores em tabela
+void CalculaValoresPrice(int periodo, double valor, double juros, double pagames,  double* parcelas, double* jurosMensais, double* amortizacoes, double* saldosDevedores);//Prepara e chama recursiva --zera indice
+void CalculaValoresPriceRec(int periodo, double valor, double juros, double pagamento, double* parcelas, double* jurosMensais, double* amortizacoes, double* saldosDevedores, int i);//calcula diferenÃ§as entre prestaÃ§Ã£o, juros, amortizaÃ§Ã£o e valor total, vetores em tabela
 
-//Sac
-double CalcPagamentoSac(int pS, double vS, double jS, double* pmtS);//calcular amortização
-void CalcSac(int periodoSac, double valorSac, double jurosSac, double pagamesSac, double* parcelasSac, double* jurosMensaisSac, double* amortizacoesSac, double* saldosDevedoresSac);//calcula diferenças entre prestação, juros, amortização e valor total, vetores em tabela
+//impressao tabelas price
+void ImprimeTabelaPrice(int periodo, double* parcelas, double* jurosMensais, double* amortizacoes, double* saldosDevedores);//omprime tabela
+void ImprimeInformacoesMensais(int periodo, double* parcelas, double* jurosMensais, double* amortizacoes, double* saldosDevedores);//imprime linha especifica
+
+//calculos Sac
+double CalcPagamentoSac(int pS, double vS, double jS, double* pmtS);//calcular amortizaÃ§Ã£o
+void CalculaAmortizacaoSac(int periodoSac, double valorSac, double jurosSac, double pagamesSac, double* parcelasSac, double* jurosMensaisSac, double* amortizacoesSac, double* saldosDevedoresSac);//Prepara e chama recursiva --zera indice
+void CalculaAmortizacaoSacRec(int periodoSac, double valorSac, double jurosSac, double pagamentoSac, double* parcelasSac, double* jurosMensaisSac, double* amortizacoesSac, double* saldosDevedoresSac, int j);//calcula diferenÃ§as entre prestaÃ§Ã£o, juros, amortizaÃ§Ã£o e valor total, vetores em tabela
+
+//impressao tabelas sac
+void ImprimeTabelaSac(int periodoSac, double* parcelasSac, double* jurosMensaisSac, double* amortizacoesSac, double* saldosDevedoresSac);//imprime vetores
+void ImprimeInformacoesMensaisSac(int periodoSac, double* parcelasSac, double* jurosMensaisSac, double* amortizacoesSac, double* saldosDevedoresSac);
+
+//salvar em doc
+void SalvarTabelaEmArquivo(const char* nomeArquivo, int periodo, double* parcelas, double* jurosMensais, double* amortizacoes, double* saldosDevedores);
+void SalvarTabelaEmArquivoSac(const char* nomeArquivo2, int periodoSac, double* parcelasSac, double* jurosMensaisSac, double* amortizacoesSac, double* saldosDevedoresSac);
+
+//liberar memoria
+void LiberarMemoria(double* parcelas, double* jurosMensais, double* amortizacoes, double* saldosDevedores);
